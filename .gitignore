@@ -146,7 +146,9 @@ $RECYCLE.BIN/
 
 **/node_modules/
 ipydatetime/nbextension/static/index.*
-ipydatetime/labextension/*.tgz
+ts/lab-dist/*.tgz
+ts/package-lock.json
+ts/yarn.lock
 
 # Coverage data
 # -------------

@@ -6,23 +6,26 @@
 
 from __future__ import print_function
 from glob import glob
+import os.path
 from os.path import join as pjoin
 
 
-from setupbase import (
+from jupyter_packaging import (
     create_cmdclass, install_npm, ensure_targets,
     find_packages, combine_commands, ensure_python,
-    get_version, HERE
+    get_version
 )
 
 from setuptools import setup
+
+HERE = os.path.abspath(os.path.dirname(__file__))
 
 
 # The name of the project
 name = 'ipydatetime'
 
 # Ensure a valid python version
-ensure_python('>=3.4')
+ensure_python('>=3.5')
 
 # Get our version
 version = get_version(pjoin(name, '_version.py'))
@@ -66,7 +69,7 @@ setup_args = dict(
     version         = version,
     scripts         = glob(pjoin('scripts', '*')),
     cmdclass        = cmdclass,
-    packages        = find_packages(),
+    packages        = find_packages(HERE),
     author          = 'Vidar Tonaas Fauske',
     author_email    = 'vidartf@gmail.com',
     url             = 'https://github.com/vidartf/ipydatetime',
@@ -79,7 +82,6 @@ setup_args = dict(
         'License :: OSI Approved :: BSD License',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
