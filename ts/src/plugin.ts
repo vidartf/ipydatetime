@@ -13,7 +13,9 @@ import {
   IJupyterWidgetRegistry
  } from '@jupyter-widgets/base';
 
-import * as widgetExports from './widget';
+import { TimeModel, TimeView } from './time';
+
+import { DatetimeModel, DatetimeView } from './datetime';
 
 import {
   MODULE_NAME, MODULE_VERSION
@@ -22,16 +24,16 @@ import {
 const EXTENSION_ID = 'jupyter-widget-datetime:plugin';
 
 /**
- * The example plugin.
+ * The widget plugin.
  */
-const examplePlugin: IPlugin<Application<Widget>, void> = {
+const plugin: IPlugin<Application<Widget>, void> = {
   id: EXTENSION_ID,
   requires: [IJupyterWidgetRegistry],
   activate: activateWidgetExtension,
   autoStart: true
 };
 
-export default examplePlugin;
+export default plugin;
 
 
 /**
@@ -41,6 +43,11 @@ function activateWidgetExtension(app: Application<Widget>, registry: IJupyterWid
   registry.registerWidget({
     name: MODULE_NAME,
     version: MODULE_VERSION,
-    exports: widgetExports,
+    exports: {
+      TimeModel,
+      TimeView,
+      DatetimeModel,
+      DatetimeView,
+    },
   });
 }

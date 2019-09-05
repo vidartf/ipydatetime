@@ -4,10 +4,13 @@
 # Copyright (c) Vidar Tonaas Fauske
 # Distributed under the terms of the Modified BSD License.
 
+
 def _jupyter_nbextension_paths():
-    return [{
-        'section': 'notebook',
-        'src': 'nbextension/static',
-        'dest': 'jupyter-widget-datetime',
-        'require': 'jupyter-widget-datetime/extension'
-    }]
+    return [
+        {
+            "section": "notebook",
+            "src": "nbextension/static",
+            "dest": "jupyter-widget-datetime",
+            "require": "jupyter-widget-datetime/extension",
+        }
+    ]

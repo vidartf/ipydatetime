@@ -83,7 +83,7 @@ setup_args = dict(
         "Framework :: Jupyter",
     ],
     include_package_data=True,
-    install_requires=["ipywidgets>=7.0.0"],
+    install_requires=["ipywidgets>=7.0.0", "pytz"],
     extras_require={
         "test": ["pytest>=3.6", "pytest-cov", "nbval"],
         "examples": [
