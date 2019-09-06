@@ -11,26 +11,34 @@ import {
   createTestModel
 } from './utils.spec';
 
+// @jupyter-widgets/controls depend on
+// jquery-ui, and karma(-typescript) requires some workarounds:
+import 'jquery-ui/ui/version';
+import 'jquery-ui/ui/plugin';
+import 'jquery-ui/ui/widget';
+import 'jquery-ui/ui/widgets/mouse';
+import 'jquery-ui/ui/widgets/slider';
+
 import {
-  ExampleModel, ExampleView
-} from '../../src/'
+  TimeModel
+} from '../../src/';
 
+describe('Time', () => {
 
-describe('Example', () => {
-
-  describe('ExampleModel', () => {
+  describe('TimeModel', () => {
 
     it('should be createable', () => {
-      let model = createTestModel(ExampleModel);
-      expect(model).to.be.an(ExampleModel);
-      expect(model.get('value')).to.be('Hello World');
+      let model = createTestModel(TimeModel);
+      expect(model).to.be.an(TimeModel);
+      expect(model.get('value')).to.be(null);
     });
 
     it('should be createable with a value', () => {
-      let state = { value: 'Foo Bar!' }
-      let model = createTestModel(ExampleModel, state);
-      expect(model).to.be.an(ExampleModel);
-      expect(model.get('value')).to.be('Foo Bar!');
+      const timeString = (new Date()).toISOString().slice(0, -1);
+      let state = { value: timeString };
+      let model = createTestModel(TimeModel, state);
+      expect(model).to.be.an(TimeModel);
+      expect(model.get('value')).to.be(timeString);
     });
 
   });

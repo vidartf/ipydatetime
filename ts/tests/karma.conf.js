@@ -10,6 +10,7 @@ module.exports = function (config) {
       }
     },
     files: [
+      './node_modules/jquery/dist/jquery.js',
       { pattern: "tests/src/**/*.ts" },
       { pattern: "src/**/*.ts" },
     ],
@@ -25,7 +26,7 @@ module.exports = function (config) {
     singleRun: true,
     logLevel: config.LOG_INFO,
 
-    // you can define custom flags
+    // define flags for CI
     customLaunchers: {
       ChromeCI: {
         base: 'ChromeHeadless',
