@@ -68,10 +68,10 @@ def datetime_to_json(pydt, manager):
             year=utcdt.year,
             month=utcdt.month - 1,  # Months are 0-based indices in JS
             date=utcdt.day,
-            hours=utcdt.hour,       # Hours, Minutes, Seconds and Milliseconds
-            minutes=utcdt.minute,   # are plural in JS
+            hours=utcdt.hour,  # Hours, Minutes, Seconds and Milliseconds
+            minutes=utcdt.minute,  # are plural in JS
             seconds=utcdt.second,
-            milliseconds=utcdt.microsecond / 1000
+            milliseconds=utcdt.microsecond / 1000,
         )
 
 
@@ -81,17 +81,15 @@ def datetime_from_json(js, manager):
         return None
     else:
         return dt.datetime(
-            js['year'],
-            js['month'] + 1,  # Months are 1-based in Python
-            js['date'],
-            js['hours'],
-            js['minutes'],
-            js['seconds'],
-            js['milliseconds'] * 1000,
-            pytz.utc
+            js["year"],
+            js["month"] + 1,  # Months are 1-based in Python
+            js["date"],
+            js["hours"],
+            js["minutes"],
+            js["seconds"],
+            js["milliseconds"] * 1000,
+            pytz.utc,
         )
 
-datetime_serialization = {
-    'from_json': datetime_from_json,
-    'to_json': datetime_to_json
-}
+
+datetime_serialization = {"from_json": datetime_from_json, "to_json": datetime_to_json}
