@@ -29,7 +29,6 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx.ext.todo",
     "nbsphinx",
-    "jupyter_sphinx.embed_widgets",
     "nbsphinx_link",
 ]
 
