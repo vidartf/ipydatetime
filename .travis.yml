@@ -8,6 +8,7 @@ dist: xenial
 services:
   - xvfb
 addons:
+  chrome: stable
   apt_packages:
     - pandoc
 env:
@@ -47,7 +48,7 @@ before_script:
   # Set up a virtual screen for Firefox browser testing:
   - |
     if [[ $GROUP == js ]]; then
-      export CHROME_BIN=chromium-browser
+      export CHROME_BIN=google-chrome-stable
     fi
     git config --global user.email travis@fake.com
     git config --global user.name "Travis CI"
@@ -60,7 +61,7 @@ script:
       popd
     elif [[ $GROUP == js ]]; then
       pushd ts
-      npm test || EXIT_STATUS=$?
+      npm run test:ci || EXIT_STATUS=$?
       popd
     elif [[ $GROUP == docs ]]; then
       cd docs
