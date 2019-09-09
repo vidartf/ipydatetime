@@ -5,12 +5,12 @@ skip_branch_with_pr: true
 environment:
   nodejs_version: "8"
   matrix:
-    - PYTHON: "C:\\Miniconda3-x64"
+    - PYTHON: "C:\\Miniconda37-x64"
       PYTHON_VERSION: "3.7"
       PYTHON_MAJOR: 3
       PYTHON_ARCH: "64"
-    - PYTHON: "C:\\Miniconda3"
-      PYTHON_VERSION: "3.4"
+    - PYTHON: "C:\\Miniconda35"
+      PYTHON_VERSION: "3.5"
       PYTHON_MAJOR: 3
       PYTHON_ARCH: "32"
 
