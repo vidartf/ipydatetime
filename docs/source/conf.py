@@ -200,8 +200,6 @@ nbsphinx_allow_errors = True  # exception ipstruct.py ipython_genutils
 
 
 def setup(app):
-    app.setup_extension("jupyter_sphinx.embed_widgets")
-
     def add_scripts(app):
         for fname in ["helper.js", "embed-bundle.js"]:
             if not os.path.exists(os.path.join(here, "_static", fname)):
