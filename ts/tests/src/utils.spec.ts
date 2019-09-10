@@ -7,20 +7,21 @@ import * as Backbone from 'backbone';
 
 let numComms = 0;
 
-export
-class MockComm {
-    target_name = 'dummy';
 
+export class MockComm implements widgets.IClassicComm {
     constructor() {
         this.comm_id = `mock-comm-id-${numComms}`;
         numComms += 1;
     }
+
     on_close(fn: Function | null) {
         this._on_close = fn;
     }
+
     on_msg(fn: Function | null) {
         this._on_msg = fn;
     }
+
     _process_msg(msg: services.KernelMessage.ICommMsgMsg) {
         if (this._on_msg) {
             return this._on_msg(msg);
@@ -28,26 +29,33 @@ class MockComm {
             return Promise.resolve();
         }
     }
-    close(): string {
+
+    open(data?: any, metadata?: any, buffers?: ArrayBuffer[] | ArrayBufferView[]): string {
+        if (this._on_open) {
+            this._on_open();
+        }
+        return '';
+    }
+
+    close(data?: any, metadata?: any, buffers?: ArrayBuffer[] | ArrayBufferView[]): string {
         if (this._on_close) {
             this._on_close();
         }
-        return 'dummy';
-    }
-    send(): string {
-        return 'dummy';
+        return '';
     }
 
-    open(): string {
-        return 'dummy';
+    send(data?: any, metadata?: any, buffers?: ArrayBuffer[] | ArrayBufferView[]): string {
+        return '';
     }
+
     comm_id: string;
+    target_name: string;
     _on_msg: Function | null = null;
     _on_close: Function | null = null;
+    _on_open: Function | null = null;
 }
 
-export
-class DummyManager extends widgets.ManagerBase<HTMLElement> {
+export class DummyManager extends widgets.ManagerBase<HTMLElement> {
     constructor() {
         super();
         this.el = window.document.createElement('div');
@@ -70,7 +78,7 @@ class DummyManager extends widgets.ManagerBase<HTMLElement> {
             } else {
                 return Promise.reject(`Cannot find class ${className}`)
             }
-        } else if (moduleName === 'jupyter-datawidgets') {
+        } else if (moduleName === 'jupyter-widget-datetime') {
             if (this.testClasses[className]) {
                 return Promise.resolve(this.testClasses[className]);
             } else {
@@ -82,32 +90,59 @@ class DummyManager extends widgets.ManagerBase<HTMLElement> {
     }
 
     _get_comm_info() {
-        return Promise.resolve({});
+            return Promise.resolve({});
     }
 
-    _create_comm() {
-        return Promise.resolve(new MockComm());
+    _create_comm(comm_target_name: string, model_id: string, data?: any, metadata?: any, buffers?: ArrayBuffer[] | ArrayBufferView[]): Promise<widgets.IClassicComm> {
+            return Promise.resolve(new MockComm());
     }
 
     el: HTMLElement;
-
     testClasses: { [key: string]: any } = {};
 }
 
 
-export
-interface Constructor<T> {
+export interface Constructor<T> {
     new (attributes?: any, options?: any): T;
 }
 
-export
-function createTestModel<T extends widgets.WidgetModel>(constructor: Constructor<T>, attributes?: any): T {
-  let id = widgets.uuid();
-  let widget_manager = new DummyManager();
-  let modelOptions = {
-      widget_manager: widget_manager,
-      model_id: id,
-  }
 
-  return new constructor(attributes, modelOptions);
+export function createTestModel<T extends widgets.WidgetModel>(
+    constructor: Constructor<T>,
+    attributes?: any,
+    widget_manager?: widgets.WidgetModel['widget_manager'],
+): T {
+
+    let id = widgets.uuid();
+    let modelOptions = {
+        widget_manager: widget_manager || new DummyManager(),
+        model_id: id,
+    }
+
+    return new constructor(attributes, modelOptions);
+
+}
+
+
+export async function createTestModelFromSerialized<T extends widgets.WidgetModel>(
+    constructor: Constructor<T>,
+    state?: any,
+    widget_manager?: widgets.WidgetModel['widget_manager'],
+): Promise<T> {
+    widget_manager = widget_manager || new DummyManager();
+    let attributes = await (constructor as any)._deserialize_state(state, widget_manager);
+
+    return createTestModel(constructor, attributes, widget_manager);
+}
+
+
+export function createTestView<T extends widgets.WidgetView>(
+    model: widgets.WidgetModel,
+    viewCtor: Constructor<T>
+): Promise<T> {
+
+    let mgr = model.widget_manager as DummyManager;
+    mgr.testClasses[model.get('_view_name')] = viewCtor;
+    return model.widget_manager.create_view(model, undefined) as any;
+
 }

@@ -45,6 +45,12 @@ module.exports = function (config) {
           "filename": "coverage.lcov"
         }
       },
+      coverageOptions: {
+        exclude: [
+          /\.(d|spec|test)\.ts$/i,
+          /plugin\.ts$/,
+        ]
+      },
       bundlerOptions: {
         acornOptions: {
           ecmaVersion: 8,

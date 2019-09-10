@@ -63,11 +63,15 @@ export function deserialize_time(value: SerializedTime) {
     if (value === null) {
         return null;
     } else {
-      const parts = [`${value.hours}:${value.minutes}`];
+      const parts = [`${
+          value.hours.toString().padStart(2, "0")
+        }:${
+          value.minutes.toString().padStart(2, "0")
+        }`];
       if (value.seconds > 0 || value.milliseconds > 0) {
-        parts.push(`:${value.seconds}`);
+        parts.push(`:${value.seconds.toString().padStart(2, "0")}`);
         if (value.milliseconds > 0) {
-          parts.push(`.${value.milliseconds}`);
+          parts.push(`.${value.milliseconds.toString().padStart(3, "0")}`);
         }
       }
       return parts.join('');
