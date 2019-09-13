@@ -16,6 +16,7 @@ module.exports = function (config) {
     ],
     exclude: [
       "src/extension.ts",
+      "src/plugin.ts",
     ],
     preprocessors: {
       '**/*.ts': ['karma-typescript']
@@ -44,12 +45,6 @@ module.exports = function (config) {
           "directory": "coverage",
           "filename": "coverage.lcov"
         }
-      },
-      coverageOptions: {
-        exclude: [
-          /\.(d|spec|test)\.ts$/i,
-          /plugin\.ts$/,
-        ]
       },
       bundlerOptions: {
         acornOptions: {
