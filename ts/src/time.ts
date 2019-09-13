@@ -130,7 +130,9 @@ export class TimeView extends DescriptionView {
     this.el.appendChild(this._timepicker);
 
     this.listenTo(this.model, 'change:value', this._update_value);
-    this.update();
+    this.listenTo(this.model, 'change', this.update2)
+    this._update_value();
+    this.update2();
   }
 
   /**
@@ -139,9 +141,12 @@ export class TimeView extends DescriptionView {
    * Called when the model is changed. The model may have been
    * changed by another view or by a state update from the back-end.
    */
-  update(options?: any) {
+  update2(model?: Backbone.Model, options?: any) {
     if (options === undefined || options.updated_view !== this) {
       this._timepicker!.disabled = this.model.get('disabled');
+      this._timepicker!.min = this.model.get('min');
+      this._timepicker!.max = this.model.get('max');
+      this._timepicker!.step = this.model.get('step');
     }
     return super.update();
   }
@@ -157,20 +162,22 @@ export class TimeView extends DescriptionView {
       };
   }
 
-  private _update_value() {
-      this._timepicker!.value = this.model.get('value');
+  private _update_value(model?: Backbone.Model, newValue?: any, options?: any) {
+    if (options === undefined || options.updated_view !== this) {
+      this._timepicker!.value = this.model.get('value');;
+    }
   }
 
   private _picker_change() {
     if (!this._timepicker!.validity.badInput) {
-      this.model.set('value', this._timepicker!.value);
+      this.model.set('value', this._timepicker!.value, {updated_view: this});
       this.touch();
     }
   }
 
   private _picker_focusout() {
     if (this._timepicker!.validity.badInput) {
-      this.model.set('value', null);
+      this.model.set('value', null, {updated_view: this});
       this.touch();
     }
   }

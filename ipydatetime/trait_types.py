@@ -7,9 +7,6 @@ Trait types for html widgets.
 
 import traitlets
 import datetime as dt
-import pytz
-
-from ipywidgets.widgets.trait_types import datetime_serialization
 
 
 class Time(traitlets.TraitType):
@@ -63,7 +60,12 @@ def datetime_to_json(pydt, manager):
     if pydt is None:
         return None
     else:
-        utcdt = pydt.astimezone(pytz.utc)
+        try:
+            utcdt = pydt.astimezone(dt.timezone.utc)
+        except (ValueError, OSError):
+            # If year is outside valid range for conversion,
+            # use it as-is
+            utcdt = pydt
         return dict(
             year=utcdt.year,
             month=utcdt.month - 1,  # Months are 0-based indices in JS
@@ -80,16 +82,30 @@ def datetime_from_json(js, manager):
     if js is None:
         return None
     else:
-        return dt.datetime(
-            js["year"],
-            js["month"] + 1,  # Months are 1-based in Python
-            js["date"],
-            js["hours"],
-            js["minutes"],
-            js["seconds"],
-            js["milliseconds"] * 1000,
-            pytz.utc,
-        )
+        try:
+            return dt.datetime(
+                js["year"],
+                js["month"] + 1,  # Months are 1-based in Python
+                js["date"],
+                js["hours"],
+                js["minutes"],
+                js["seconds"],
+                js["milliseconds"] * 1000,
+                dt.timezone.utc,
+            ).astimezone()
+        except (ValueError, OSError):
+            # If year is outside valid range for conversion,
+            # return naive datetime
+            return dt.datetime(
+                js["year"],
+                js["month"] + 1,  # Months are 1-based in Python
+                js["date"],
+                js["hours"],
+                js["minutes"],
+                js["seconds"],
+                js["milliseconds"] * 1000,
+                dt.timezone.utc,
+            )
 
 
 datetime_serialization = {"from_json": datetime_from_json, "to_json": datetime_to_json}

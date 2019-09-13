@@ -9,11 +9,12 @@ Time and datetime picker widgets
 """
 
 from ipywidgets import ValueWidget, register
-from ipywidgets.widgets.trait_types import Datetime, datetime_serialization
+from ipywidgets.widgets.trait_types import Datetime
 from ipywidgets.widgets.widget_description import DescriptionWidget
 from traitlets import Unicode, Bool, validate, TraitError
 
 from .base_widget import BaseWidget
+from .trait_types import datetime_serialization
 
 
 @register

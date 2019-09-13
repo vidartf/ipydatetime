@@ -154,7 +154,9 @@ export class DatetimeView extends DescriptionView {
     }
 
     this.listenTo(this.model, 'change:value', this._update_value);
-    this.update();
+    this.listenTo(this.model, 'change', this.update2)
+    this._update_value();
+    this.update2();
   }
 
   /**
@@ -163,16 +165,25 @@ export class DatetimeView extends DescriptionView {
    * Called when the model is changed. The model may have been
    * changed by another view or by a state update from the back-end.
    */
-  update(options?: any) {
+  update2(model?: Backbone.Model, options?: any) {
     if (options === undefined || options.updated_view !== this) {
+      const min = this.model.get('min') as Date | null;
+      const max = this.model.get('max') as Date | null;
       if (this._datetimepicker) {
         this._datetimepicker.disabled = this.model.get('disabled');
+        this._datetimepicker!.min = Private.dt_as_dt_string(min);
+        this._datetimepicker!.max = Private.dt_as_dt_string(max);
       } else {
         this._datepicker!.disabled = this.model.get('disabled');
+        this._datepicker!.min = Private.dt_as_date_string(min);
+        this._datepicker!.max = Private.dt_as_date_string(max);
         this._timepicker!.disabled = this.model.get('disabled');
+        // Don't support min/max time here.
+        // It could be added by enabling min time if value is min date,
+        // and enabling max time if value is max date, but leave as
+        // TODO for now.
       }
     }
-    return super.update();
   }
 
   events(): {[e: string]: string} {
@@ -190,21 +201,27 @@ export class DatetimeView extends DescriptionView {
       };
   }
 
-  private _update_value() {
-    const value = this.model.get('value') as Date | null;
-    if (this._datetimepicker) {
-      this._datetimepicker.value = value ? value.toISOString().slice(0, -1) : '';
-    } else {
-      this._datepicker!.valueAsDate = value;
-      const iso = value && value.toISOString().split('T', 2)[1].slice(0, -1);
-      this._timepicker!.value = iso || '';
+  private _update_value(model?: Backbone.Model, newValue?: any, options?: any) {
+    if (options === undefined || options.updated_view !== this) {
+      const value = this.model.get('value') as Date | null;
+      if (this._datetimepicker) {
+        this._datetimepicker.value = Private.dt_as_dt_string(value);
+      } else {
+        this._datepicker!.valueAsDate = value;
+        this._timepicker!.value = Private.dt_as_time_string(value);
+      }
     }
   }
 
   private _picker_change() {
     if (this._datetimepicker) {
       if (!this._datetimepicker.validity.badInput) {
-        this.model.set('value', new Date(this._datetimepicker.value));
+        const v = this._datetimepicker.value;
+        let date = v ? new Date(v) : null;
+        if (date && isNaN(date.valueOf())) {
+          date = null;
+        }
+        this.model.set('value', date, {updated_view: this});
         this.touch();
       }
     } else {
@@ -222,7 +239,7 @@ export class DatetimeView extends DescriptionView {
             time.seconds,
             time.milliseconds);
         }
-        this.model.set('value', time !== null && date);
+        this.model.set('value', time !== null && date, {updated_view: this});
         this.touch();
       }
     }
@@ -243,4 +260,38 @@ export class DatetimeView extends DescriptionView {
   private _datetimepicker: HTMLInputElement | undefined;
   private _timepicker: HTMLInputElement | undefined;
   private _datepicker: HTMLInputElement | undefined;
+}
+
+namespace Private {
+  export function dt_as_dt_string(value: Date | null): string {
+    if (value === null) {
+      return '';
+    }
+    // Replicate `toISOString()` but in local time zone:
+    const parts = [];
+    parts.push(`${value.getFullYear().toString().padStart(4, "0")}`);
+    parts.push(`-${(value.getMonth() + 1).toString().padStart(2, "0")}`);
+    parts.push(`-${value.getDate().toString().padStart(2, "0")}`);
+    parts.push(`T${value.getHours().toString().padStart(2, "0")}`);
+    parts.push(`:${value.getMinutes().toString().padStart(2, "0")}`);
+    if (value.getSeconds() > 0 || value.getMilliseconds() > 0) {
+      parts.push(`:${value.getSeconds().toString().padStart(2, "0")}`);
+      if (value.getMilliseconds() > 0) {
+        parts.push(`.${value.getMilliseconds().toString().padStart(3, "0")}`);
+      }
+    }
+    return parts.join('');
+  }
+
+  export function dt_as_date_string(value: Date | null): string {
+    return value
+      ? dt_as_dt_string(value).split('T', 2)[0]
+      : '';
+  }
+
+  export function dt_as_time_string(value: Date | null): string {
+    return value
+      ? dt_as_dt_string(value).split('T', 2)[1]
+      : '';
+  }
 }
