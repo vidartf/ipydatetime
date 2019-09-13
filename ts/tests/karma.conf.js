@@ -24,10 +24,10 @@ module.exports = function (config) {
     browserNoActivityTimeout: 31000, // 31 seconds - upped from 10 seconds
     port: 9876,
     colors: true,
-    singleRun: true,
+    singleRun: !config.debug,
     logLevel: config.LOG_INFO,
 
-    // define flags for CI
+    // you can define custom flags
     customLaunchers: {
       ChromeCI: {
         base: 'ChromeHeadless',
@@ -38,6 +38,9 @@ module.exports = function (config) {
 
     karmaTypescriptConfig: {
       tsconfig: 'tests/tsconfig.json',
+      coverageOptions: {
+        instrumentation: !config.debug
+      },
       reports: {
         "text-summary": "",
         "html": "coverage",
@@ -47,6 +50,7 @@ module.exports = function (config) {
         }
       },
       bundlerOptions: {
+        sourceMap: true,
         acornOptions: {
           ecmaVersion: 8,
         },

@@ -2,6 +2,5 @@
 node_modules/
 tests/
 .jshintrc
-# Ignore any build output from python:
-dist/*.tar.gz
-dist/*.wheel
+# Ignore any lab dist packs:
+lab-dist/*.tar.gz

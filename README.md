@@ -5,7 +5,7 @@
 [![codecov](https://codecov.io/gh/vidartf/ipydatetime/branch/master/graph/badge.svg)](https://codecov.io/gh/vidartf/ipydatetime)
 
 
-A Jupyter Widget library for time and datetime pickers
+A Jupyter widgets library for time and datetime pickers
 
 ## Installation
 

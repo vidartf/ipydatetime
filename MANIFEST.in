@@ -4,11 +4,7 @@ include pyproject.toml
 
 include setupbase.py
 include pytest.ini
-include .coverage.rc
-
-include package.json
-include webpack.config.js
-include ipydatetime/labextension/*.tgz
+include .coveragerc
 
 # Documentation
 graft docs
@@ -19,10 +15,6 @@ prune docs/dist
 
 # Examples
 graft examples
-
-# Tests
-graft tests
-prune tests/build
 
 # Javascript files
 graft ipydatetime/nbextension

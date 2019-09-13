@@ -154,5 +154,5 @@ ts/yarn.lock
 # -------------
 **/coverage/
 
-# Packed lab extensions
-ipydatetime/labextension
+# Test data
+.pytest_cache

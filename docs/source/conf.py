@@ -170,7 +170,7 @@ texinfo_documents = [
         "ipydatetime Documentation",
         author,
         "ipydatetime",
-        "A Jupyter Widget library for time and datetime pickers",
+        "A Jupyter widgets library for time and datetime pickers",
         "Miscellaneous",
     )
 ]
@@ -204,6 +204,7 @@ def setup(app):
         for fname in ["helper.js", "embed-bundle.js"]:
             if not os.path.exists(os.path.join(here, "_static", fname)):
                 from sphinx.util import logging
+
                 logger = logging.getLogger(__name__)
                 logger.warn("missing javascript file: %s" % fname)
             app.add_javascript(fname)

@@ -17,6 +17,7 @@ def test_time_creation_blank():
     w = DatetimePicker()
     assert w.value is None
 
+
 def test_time_creation_value():
     t = datetime.datetime.today()
     w = DatetimePicker(value=t)
@@ -31,6 +32,7 @@ def test_time_validate_value_none():
     w.value = None
     assert w.value is None
 
+
 def test_time_validate_value_vs_min():
     t = datetime.datetime(2002, 2, 20, 13, 37, 42, 7)
     t_min = datetime.datetime(2019, 1, 1)
@@ -38,6 +40,7 @@ def test_time_validate_value_vs_min():
     w = DatetimePicker(min=t_min, max=t_max)
     w.value = t
     assert w.value.year == 2019
+
 
 def test_time_validate_value_vs_max():
     t = datetime.datetime(2002, 2, 20, 13, 37, 42, 7)
@@ -56,6 +59,7 @@ def test_time_validate_min_vs_value():
     w.min = t_min
     assert w.value.year == 2019
 
+
 def test_time_validate_min_vs_max():
     t = datetime.datetime(2002, 2, 20, 13, 37, 42, 7)
     t_min = datetime.datetime(2112, 1, 1)
@@ -72,6 +76,7 @@ def test_time_validate_max_vs_value():
     w = DatetimePicker(value=t, min=t_min)
     w.max = t_max
     assert w.value.year == 1994
+
 
 def test_time_validate_max_vs_min():
     t = datetime.datetime(2002, 2, 20, 13, 37, 42, 7)

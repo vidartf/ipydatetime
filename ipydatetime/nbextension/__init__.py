@@ -10,7 +10,7 @@ def _jupyter_nbextension_paths():
         {
             "section": "notebook",
             "src": "nbextension/static",
-            "dest": "jupyter-widget-datetime",
-            "require": "jupyter-widget-datetime/extension",
+            "dest": "ipydatetime",
+            "require": "ipydatetime/extension",
         }
     ]

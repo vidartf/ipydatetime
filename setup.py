@@ -22,8 +22,8 @@ from jupyter_packaging import (
 
 from setuptools import setup
 
-HERE = os.path.abspath(os.path.dirname(__file__))
 
+HERE = os.path.abspath(os.path.dirname(__file__))
 
 # The name of the project
 name = "ipydatetime"
@@ -32,16 +32,16 @@ name = "ipydatetime"
 ensure_python(">=3.5")
 
 # Get our version
-version = get_version(pjoin(name, "_version.py"))
+version = get_version(pjoin(HERE, name, "_version.py"))
 
 nb_path = pjoin(HERE, name, "nbextension", "static")
 js_path = pjoin(HERE, "ts")
-lab_path = pjoin(HERE, name, "labextension")
+lab_path = pjoin(HERE, "ts", "lab-dist")
 
 # Representative files that should exist after a successful build
 jstargets = [pjoin(nb_path, "index.js"), pjoin(js_path, "lib", "plugin.js")]
 
-package_data_spec = {name: ["nbextension/static/*.*js*", "labextension/*.tgz"]}
+package_data_spec = {name: ["nbextension/static/*.*js*"]}
 
 data_files_spec = [
     ("share/jupyter/nbextensions/ipydatetime", nb_path, "*.js*"),
@@ -60,7 +60,7 @@ cmdclass["jsdeps"] = combine_commands(
 
 setup_args = dict(
     name=name,
-    description="A Jupyter Widget library for time and datetime pickers",
+    description="A Jupyter widgets library for time and datetime pickers",
     version=version,
     scripts=glob(pjoin("scripts", "*")),
     cmdclass=cmdclass,
@@ -77,14 +77,13 @@ setup_args = dict(
         "License :: OSI Approved :: BSD License",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
-        'Programming Language :: Python :: 3 :: Only',
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Framework :: Jupyter",
     ],
     include_package_data=True,
-    install_requires=["ipywidgets>=7.0.0", "pytz"],
+    install_requires=["ipywidgets>=7.0.0"],
     extras_require={
         "test": ["pytest>=3.6", "pytest-cov", "nbval"],
         "examples": [

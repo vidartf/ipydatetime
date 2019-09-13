@@ -6,7 +6,7 @@ define(function() {
     window['requirejs'].config({
         map: {
             '*': {
-                'jupyter-widget-datetime': 'nbextensions/jupyter-widget-datetime/index',
+                'jupyter-widget-datetime': 'nbextensions/ipydatetime/index',
             },
         }
     });

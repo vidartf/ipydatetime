@@ -22,31 +22,26 @@ from ..trait_types import (
 def test_time_serialize_none():
     assert time_to_json(None, None) == None
 
+
 def test_time_serialize_value():
     t = datetime.time(13, 37, 42, 7000)
     assert time_to_json(t, None) == dict(
-        hours=13,
-        minutes=37,
-        seconds=42,
-        milliseconds=7,
+        hours=13, minutes=37, seconds=42, milliseconds=7
     )
 
 
 def test_time_deserialize_none():
     assert time_from_json(None, None) == None
 
+
 def test_time_deserialize_value():
-    v = dict(
-        hours=13,
-        minutes=37,
-        seconds=42,
-        milliseconds=7,
-    )
+    v = dict(hours=13, minutes=37, seconds=42, milliseconds=7)
     assert time_from_json(v, None) == datetime.time(13, 37, 42, 7000)
 
 
 def test_datetime_serialize_none():
     assert datetime_to_json(None, None) == None
+
 
 def test_datetime_serialize_value():
     t = datetime.datetime(2002, 2, 20, 13, 37, 42, 7000, pytz.utc)
@@ -59,6 +54,7 @@ def test_datetime_serialize_value():
         seconds=42,
         milliseconds=7,
     )
+
 
 def test_datetime_serialize_non_utz():
     # Non-existant timezone, so it wil never be the local one:
@@ -78,6 +74,7 @@ def test_datetime_serialize_non_utz():
 def test_datetime_deserialize_none():
     assert datetime_from_json(None, None) == None
 
+
 def test_datetime_deserialize_value():
     tz = pytz.FixedOffset(42)
     v = dict(
@@ -90,4 +87,5 @@ def test_datetime_deserialize_value():
         milliseconds=7,
     )
     assert datetime_from_json(v, None) == datetime.datetime(
-        2002, 2, 20, 14, 19, 42, 7000, tz)
+        2002, 2, 20, 14, 19, 42, 7000, tz
+    )

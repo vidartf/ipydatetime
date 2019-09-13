@@ -17,6 +17,7 @@ def test_time_creation_blank():
     w = TimePicker()
     assert w.value is None
 
+
 def test_time_creation_value():
     t = datetime.time()
     w = TimePicker(value=t)
@@ -31,6 +32,7 @@ def test_time_validate_value_none():
     w.value = None
     assert w.value is None
 
+
 def test_time_validate_value_vs_min():
     t = datetime.time(13, 37, 42, 7)
     t_min = datetime.time(14)
@@ -38,6 +40,7 @@ def test_time_validate_value_vs_min():
     w = TimePicker(min=t_min, max=t_max)
     w.value = t
     assert w.value.hour == 14
+
 
 def test_time_validate_value_vs_max():
     t = datetime.time(13, 37, 42, 7)
@@ -56,6 +59,7 @@ def test_time_validate_min_vs_value():
     w.min = t_min
     assert w.value.hour == 14
 
+
 def test_time_validate_min_vs_max():
     t = datetime.time(13, 37, 42, 7)
     t_min = datetime.time(14)
@@ -72,6 +76,7 @@ def test_time_validate_max_vs_value():
     w = TimePicker(value=t, min=t_min)
     w.max = t_max
     assert w.value.hour == 12
+
 
 def test_time_validate_max_vs_min():
     t = datetime.time(13, 37, 42, 7)
