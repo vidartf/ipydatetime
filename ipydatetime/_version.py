@@ -13,7 +13,7 @@ VersionInfo = namedtuple(
 # DO NOT EDIT THIS DIRECTLY!  It is managed by bumpversion
 version_info = VersionInfo(0, 1, 1, "dev", 0)
 
-_specifier_ = {"alpha": "a", "beta": "b", "candidate": "rc", "final": ""}
+_specifier_ = {"dev": "dev", "alpha": "a", "beta": "b", "candidate": "rc", "final": ""}
 
 __version__ = "{}.{}.{}{}".format(
     version_info.major,
