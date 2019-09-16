@@ -85,7 +85,7 @@ setup_args = dict(
     include_package_data=True,
     install_requires=["ipywidgets>=7.0.0"],
     extras_require={
-        "test": ["pytest>=3.6", "pytest-cov", "nbval", "pytz"],
+        "test": ["pytest>=3.6", "pytest-cov", "pytest_check_links", "nbval", "pytz"],
         "examples": [
             # Any requirements for the examples to run
         ],
@@ -95,7 +95,6 @@ setup_args = dict(
             "sphinx_rtd_theme",
             "nbsphinx>=0.2.13,<0.4.0",
             "nbsphinx-link",
-            "pytest_check_links",
             "pypandoc",
         ],
     },
