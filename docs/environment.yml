@@ -5,7 +5,6 @@ channels:
   - nodefaults
 dependencies:
 - nodejs
-- numpy
 - sphinx
 - nbsphinx
 - pip
