@@ -35,7 +35,7 @@ class DatetimePicker(BaseWidget, DescriptionWidget, ValueWidget):
         The lower allowed datetime bound
 
     max: datetime.datetime
-        The lower allowed datetime bound
+        The upper allowed datetime bound
 
     Examples
     --------
