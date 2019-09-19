@@ -34,7 +34,7 @@ class TimePicker(BaseWidget, DescriptionWidget, ValueWidget):
         The lower allowed time bound
 
     max: datetime.time
-        The lower allowed time bound
+        The upper allowed time bound
 
     step: float | 'any'
         The time step to use for the picker, in seconds, or "any"
