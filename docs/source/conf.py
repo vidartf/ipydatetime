@@ -211,19 +211,29 @@ except ImportError:
 
 
 def setup(app):
-    from sphinx.util import logging
+    if on_rtd and not os.path.exists(os.path.join(here, "_static", "embed-bundle.js")):
+        # We don't have a develop install on RTD, ensure we get build output:
+        from subprocess import check_call
 
-    logger = logging.getLogger(__name__)
-
-    if has_embed:
-        app.add_js_file(
-            "https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"
-        )
-        app.add_js_file(ipywidgets.embed.DEFAULT_EMBED_REQUIREJS_URL)
-    else:
-        app.add_js_file("https://unpkg.com/jupyter-js-widgets@^2.0.13/dist/embed.js")
+        cwd = os.path.join(here, "..", "..", "js")
+        check_call(["npm", "install"], cwd=cwd)
+        check_call(["npm", "run", "build"], cwd=cwd)
 
     def add_scripts(app):
+        from sphinx.util import logging
+
+        logger = logging.getLogger(__name__)
+
+        if has_embed:
+            app.add_js_file(
+                "https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"
+            )
+            app.add_js_file(ipywidgets.embed.DEFAULT_EMBED_REQUIREJS_URL)
+        else:
+            app.add_js_file(
+                "https://unpkg.com/jupyter-js-widgets@^2.0.13/dist/embed.js"
+            )
+
         for fname in ["helper.js", "embed-bundle.js"]:
             if not os.path.exists(os.path.join(here, "_static", fname)):
                 logger.warn("missing javascript file: %s" % fname)
