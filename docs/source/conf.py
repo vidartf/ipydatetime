@@ -215,7 +215,7 @@ def setup(app):
         # We don't have a develop install on RTD, ensure we get build output:
         from subprocess import check_call
 
-        cwd = os.path.join(here, "..", "..", "js")
+        cwd = os.path.join(here, "..", "..", "ts")
         check_call(["npm", "install"], cwd=cwd)
         check_call(["npm", "run", "build"], cwd=cwd)
 
