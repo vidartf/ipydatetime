@@ -10,7 +10,11 @@
   ],
   "files": [
     "lib/**/*.js",
-    "dist/*.js"
+    "lib/**/*.js.map",
+    "lib/**/*.d.ts",
+    "dist/*.js",
+    "dist/*.js.map",
+    "dist/*.d.ts"
   ],
   "homepage": "https://github.com/vidartf/ipydatetime",
   "bugs": {
@@ -76,11 +80,26 @@
     "rimraf": "^2.6.2",
     "source-map-loader": "^0.2.4",
     "ts-loader": "^6.0.4",
-    "typescript": "~3.5.3",
+    "typescript": "~3.6.3",
     "webpack": "^4.39.1",
     "webpack-cli": "^3.3.6"
   },
   "jupyterlab": {
-    "extension": "lib/plugin"
+    "extension": "lib/plugin",
+    "discovery": {
+      "kernel": [
+        {
+          "kernel_spec": {
+            "language": "^python"
+          },
+          "base": {
+            "name": "ipydatetime"
+          },
+          "managers": [
+            "pip"
+          ]
+        }
+      ]
+    }
   }
 }
