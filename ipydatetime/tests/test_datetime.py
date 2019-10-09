@@ -8,6 +8,7 @@ import pytest
 
 import datetime
 
+import pytz
 from traitlets import TraitError
 
 from ..datetime_widget import DatetimePicker
@@ -85,3 +86,12 @@ def test_time_validate_max_vs_min():
     w = DatetimePicker(value=t, min=t_min)
     with pytest.raises(TraitError):
         w.max = t_max
+
+
+def test_datetime_tzinfo():
+    tz = pytz.timezone('Australia/Sydney')
+    t = datetime.datetime(2002, 2, 20, 13, 37, 42, 7, tzinfo=tz)
+    w = DatetimePicker(value=t)
+    assert w.value == t
+    # tzinfo only changes upon input from user
+    assert w.value.tzinfo == tz

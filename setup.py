@@ -15,7 +15,6 @@ from jupyter_packaging import (
     ensure_targets,
     find_packages,
     combine_commands,
-    ensure_python,
     get_version,
 )
 
@@ -26,9 +25,6 @@ HERE = os.path.abspath(os.path.dirname(__file__))
 
 # The name of the project
 name = "ipydatetime"
-
-# Ensure a valid python version
-ensure_python(">=3.5")
 
 # Get our version
 version = get_version(pjoin(HERE, name, "_version.py"))
@@ -92,6 +88,7 @@ setup_args = dict(
         "test": ["pytest>=3.6", "pytest-cov", "pytest_check_links", "nbval", "pytz"],
         "examples": [
             # Any requirements for the examples to run
+            'pytz',
         ],
         "docs": [
             "sphinx>=1.5",
@@ -100,6 +97,7 @@ setup_args = dict(
             "nbsphinx>=0.2.13",
             "nbsphinx-link",
             "pypandoc",
+            'pytz',
         ],
     },
     entry_points={},

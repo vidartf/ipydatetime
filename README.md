@@ -1,6 +1,7 @@
 
 # ipydatetime
 
+[![Documentation](https://readthedocs.org/projects/ipydatetime/badge/?version=latest)](https://ipydatetime.readthedocs.io/en/latest/?badge=latest)
 [![Build Status](https://travis-ci.org/vidartf/ipydatetime.svg?branch=master)](https://travis-ci.org/vidartf/ipydatetime)
 [![codecov](https://codecov.io/gh/vidartf/ipydatetime/branch/master/graph/badge.svg)](https://codecov.io/gh/vidartf/ipydatetime)
 

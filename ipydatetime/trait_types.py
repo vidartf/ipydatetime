@@ -9,6 +9,28 @@ import traitlets
 import datetime as dt
 
 
+try:
+    utc_tzinfo = dt.timezone.utc
+except AttributeError:
+    ZERO = dt.timedelta(0)
+
+    # A UTC class.
+
+    class UTC(dt.tzinfo):
+        """UTC"""
+
+        def utcoffset(self, dt):
+            return ZERO
+
+        def tzname(self, dt):
+            return "UTC"
+
+        def dst(self, dt):
+            return ZERO
+
+    utc_tzinfo = UTC()
+
+
 class Time(traitlets.TraitType):
     """A trait type holding a Python date object"""
 
@@ -61,7 +83,7 @@ def datetime_to_json(pydt, manager):
         return None
     else:
         try:
-            utcdt = pydt.astimezone(dt.timezone.utc)
+            utcdt = pydt.astimezone(utc_tzinfo)
         except (ValueError, OSError):
             # If year is outside valid range for conversion,
             # use it as-is
@@ -91,7 +113,7 @@ def datetime_from_json(js, manager):
                 js["minutes"],
                 js["seconds"],
                 js["milliseconds"] * 1000,
-                dt.timezone.utc,
+                utc_tzinfo,
             ).astimezone()
         except (ValueError, OSError):
             # If year is outside valid range for conversion,
@@ -104,7 +126,7 @@ def datetime_from_json(js, manager):
                 js["minutes"],
                 js["seconds"],
                 js["milliseconds"] * 1000,
-                dt.timezone.utc,
+                utc_tzinfo,
             )
 
 
