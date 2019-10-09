@@ -31,6 +31,15 @@ except AttributeError:
     utc_tzinfo = UTC()
 
 
+def as_local_zone(pydt):
+    try:
+        return pydt.astimezone()
+    except TypeError:
+        # On Python 2
+        from tzlocal import get_localzone
+        return pydt.astimezone(get_localzone())
+
+
 class Time(traitlets.TraitType):
     """A trait type holding a Python date object"""
 
@@ -105,7 +114,7 @@ def datetime_from_json(js, manager):
         return None
     else:
         try:
-            return dt.datetime(
+            return as_local_zone(dt.datetime(
                 js["year"],
                 js["month"] + 1,  # Months are 1-based in Python
                 js["date"],
@@ -114,7 +123,7 @@ def datetime_from_json(js, manager):
                 js["seconds"],
                 js["milliseconds"] * 1000,
                 utc_tzinfo,
-            ).astimezone()
+            ))
         except (ValueError, OSError):
             # If year is outside valid range for conversion,
             # return naive datetime
