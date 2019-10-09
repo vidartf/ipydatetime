@@ -5,6 +5,7 @@ include pyproject.toml
 include setupbase.py
 include pytest.ini
 include .coveragerc
+include .bumpversion.cfg
 
 # Documentation
 graft docs
