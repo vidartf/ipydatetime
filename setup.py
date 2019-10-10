@@ -85,7 +85,7 @@ setup_args = dict(
     include_package_data=True,
     install_requires=[
         "ipywidgets>=7.0.0"
-        "pytz ; python_version<'3'",
+        "tzlocal ; python_version<'3'",
     ],
     extras_require={
         "test": ["pytest>=3.6", "pytest-cov", "pytest_check_links", "nbval", "pytz"],
