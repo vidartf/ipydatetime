@@ -14,13 +14,13 @@ from ipywidgets.widgets.widget_description import DescriptionWidget
 from traitlets import Unicode, Bool, validate, TraitError
 
 from .base_widget import BaseWidget
-from .trait_types import datetime_serialization
+from .trait_types import datetime_serialization, naive_serialization
 
 
 @register
 class DatetimePicker(BaseWidget, DescriptionWidget, ValueWidget):
     """
-    Display a widget for picking times.
+    Display a widget for picking datetimes.
 
     Parameters
     ----------
@@ -42,7 +42,7 @@ class DatetimePicker(BaseWidget, DescriptionWidget, ValueWidget):
 
     >>> import datetime
     >>> import ipydatetime
-    >>> datetime_pick = ipydatetime.TimePicker()
+    >>> datetime_pick = ipydatetime.DatetimePicker()
     >>> datetime_pick.value = datetime.datetime(2018, 09, 5, 12, 34, 3)
     """
 
@@ -84,3 +84,43 @@ class DatetimePicker(BaseWidget, DescriptionWidget, ValueWidget):
 
     _view_name = Unicode("DatetimeView").tag(sync=True)
     _model_name = Unicode("DatetimeModel").tag(sync=True)
+
+
+
+
+@register
+class NaiveDatetimePicker(DatetimePicker):
+    """
+    Display a widget for picking naive datetimes (i.e. timezone unaware).
+
+    Parameters
+    ----------
+
+    value: datetime.datetime
+        The current value of the widget.
+
+    disabled: bool
+        Whether to disable user changes.
+
+    min: datetime.datetime
+        The lower allowed datetime bound
+
+    max: datetime.datetime
+        The upper allowed datetime bound
+
+    Examples
+    --------
+
+    >>> import datetime
+    >>> import ipydatetime
+    >>> datetime_pick = ipydatetime.NaiveDatetimePicker()
+    >>> datetime_pick.value = datetime.datetime(2018, 09, 5, 12, 34, 3)
+    """
+
+    # Replace the serializers and model names:
+    value = Datetime(None, allow_none=True).tag(sync=True, **naive_serialization)
+
+    min = Datetime(None, allow_none=True).tag(sync=True, **naive_serialization)
+    max = Datetime(None, allow_none=True).tag(sync=True, **naive_serialization)
+
+    _model_name = Unicode("NaiveDatetimeModel").tag(sync=True)
