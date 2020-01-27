@@ -117,10 +117,10 @@ export class DatetimeModel extends CoreDescriptionModel {
       max: datetime_serializers,
     }
 
-  static model_name = 'TimeModel';
+  static model_name = 'DatetimeModel';
   static model_module = MODULE_NAME;
   static model_module_version = MODULE_VERSION;
-  static view_name = 'TimeView';
+  static view_name = 'DatetimeView';
   static view_module = MODULE_NAME;
   static view_module_version = MODULE_VERSION;
 }

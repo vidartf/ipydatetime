@@ -23,6 +23,11 @@ import {
   DatetimeModel, DatetimeView
 } from '../../src';
 
+import {
+  NaiveDatetimeModel
+} from '../../src';
+
+
 describe('Datetime', () => {
 
   const date = new Date();
@@ -61,7 +66,7 @@ describe('Datetime', () => {
       const state_out = await model.widget_manager.get_state();
       const models = Object.keys(state_out.state).map(k => state_out.state[k].state);
       expect(models.length).to.be(1);
-      expect(models[0]._model_name).to.be('TimeModel');
+      expect(models[0]._model_name).to.be('DatetimeModel');
       expect(models[0].value).to.eql(state_in.value);
     });
 
@@ -106,6 +111,78 @@ describe('Datetime', () => {
       const view = await createTestView(model, DatetimeView);
       expect(view).to.be.a(DatetimeView);
       expect(view.model).to.be(model);
+    });
+
+  });
+
+
+  describe('NaiveDatetimeModel', () => {
+
+    it('should be createable', () => {
+      let model = createTestModel(NaiveDatetimeModel);
+      expect(model).to.be.an(NaiveDatetimeModel);
+      expect(model.get('value')).to.be(null);
+    });
+
+    it('should be createable with a value', () => {
+      let state = { value: date };
+      let model = createTestModel(NaiveDatetimeModel, state);
+      expect(model).to.be.an(NaiveDatetimeModel);
+      expect(model.get('value')).to.be(date);
+    });
+
+    it('should serialize as expected', async () => {
+      const state_in = {
+        value: {
+          year: 2002,
+          month: 2,
+          date: 20,
+          hours: 20,
+          minutes: 2,
+          seconds: 20,
+          milliseconds: 2
+        }
+      };
+
+      const model = await createTestModelFromSerialized(NaiveDatetimeModel, state_in);
+      model.widget_manager.register_model(model.model_id, Promise.resolve(model));
+
+      const state_out = await model.widget_manager.get_state();
+      const models = Object.keys(state_out.state).map(k => state_out.state[k].state);
+      expect(models.length).to.be(1);
+      expect(models[0]._model_name).to.be('NaiveDatetimeModel');
+      expect(models[0].value).to.eql(state_in.value);
+    });
+
+    it('should deserialize to Date object', async () => {
+      const state_in = {
+        value: {
+          year: 2002,
+          month: 2,
+          date: 20,
+          hours: 20,
+          minutes: 2,
+          seconds: 20,
+          milliseconds: 2
+        }
+      };
+
+      const model = await createTestModelFromSerialized(NaiveDatetimeModel, state_in);
+      expect(model.get('value')).to.eql(new Date(2002, 2, 20, 20, 2, 20, 2));
+    });
+
+
+    it('should deserialize null', async () => {
+      const state_in = { value: null };
+
+      const model = await createTestModelFromSerialized(NaiveDatetimeModel, state_in);
+      expect(model.get('value')).to.be(null);
+    });
+
+    it('should deserialize undefined', async () => {
+      const state_in = {};
+      const model = await createTestModelFromSerialized(NaiveDatetimeModel, state_in);
+      expect(model.get('value')).to.be(null);
     });
 
   });
