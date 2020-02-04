@@ -52,10 +52,16 @@ class DatetimePicker(BaseWidget, DescriptionWidget, ValueWidget):
     min = Datetime(None, allow_none=True).tag(sync=True, **datetime_serialization)
     max = Datetime(None, allow_none=True).tag(sync=True, **datetime_serialization)
 
+    def _validate_tz(self, value):
+        if value.tzinfo is None:
+            raise TraitError('%s values needs to be timezone aware' % (self.__class__.__name__,))
+        return value
+
     @validate("value")
     def _validate_value(self, proposal):
         """Cap and floor value"""
         value = proposal["value"]
+        value = self._validate_tz(value)
         if self.min and self.min > value:
             value = max(value, self.min)
         if self.max and self.max < value:
@@ -66,6 +72,7 @@ class DatetimePicker(BaseWidget, DescriptionWidget, ValueWidget):
     def _validate_min(self, proposal):
         """Enforce min <= value <= max"""
         min = proposal["value"]
+        min = self._validate_tz(min)
         if self.max and min > self.max:
             raise TraitError("Setting min > max")
         if self.value and min > self.value:
@@ -76,6 +83,7 @@ class DatetimePicker(BaseWidget, DescriptionWidget, ValueWidget):
     def _validate_max(self, proposal):
         """Enforce min <= value <= max"""
         max = proposal["value"]
+        max = self._validate_tz(max)
         if self.min and max < self.min:
             raise TraitError("setting max < min")
         if self.value and max < self.value:
@@ -124,3 +132,8 @@ class NaiveDatetimePicker(DatetimePicker):
     max = Datetime(None, allow_none=True).tag(sync=True, **naive_serialization)
 
     _model_name = Unicode("NaiveDatetimeModel").tag(sync=True)
+
+    def _validate_tz(self, value):
+        if value.tzinfo is not None:
+            raise TraitError('%s values needs to be timezone unaware' % (self.__class__.__name__,))
+        return value
