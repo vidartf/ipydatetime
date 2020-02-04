@@ -88,7 +88,14 @@ setup_args = dict(
         "tzlocal ; python_version<'3'",
     ],
     extras_require={
-        "test": ["pytest>=3.6", "pytest-cov", "pytest_check_links", "nbval", "pytz"],
+        "test": [
+            "pytest>=3.6",
+            "pytest-cov",
+            "pytest_check_links",
+            "nbval",
+            "pytz",
+            "coverage<5.0.0", # pin until nbval is compatible with coverage 5
+        ],
         "examples": [
             # Any requirements for the examples to run
             'pytz',
