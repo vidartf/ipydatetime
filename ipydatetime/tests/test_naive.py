@@ -91,7 +91,5 @@ def test_time_validate_max_vs_min():
 def test_datetime_tzinfo():
     tz = pytz.timezone('Australia/Sydney')
     t = datetime.datetime(2002, 2, 20, 13, 37, 42, 7, tzinfo=tz)
-    w = NaiveDatetimePicker(value=t)
-    assert w.value == t
-    # tzinfo only changes upon input from user
-    assert w.value.tzinfo == tz
+    with pytest.raises(TraitError):
+        w = NaiveDatetimePicker(value=t)
