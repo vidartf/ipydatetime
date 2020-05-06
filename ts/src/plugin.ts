@@ -2,7 +2,7 @@
 // Distributed under the terms of the Modified BSD License.
 
 import {
-  Application, IPlugin
+  Application
 } from '@phosphor/application';
 
 import {
@@ -26,7 +26,9 @@ const EXTENSION_ID = 'jupyter-widget-datetime:plugin';
 /**
  * The widget plugin.
  */
-const plugin: IPlugin<Application<Widget>, void> = {
+const plugin = {
+// TODO: Reintroduce typing when phosphor/lumino transition completed
+//const plugin: IPlugin<Application<Widget>, void> = {
   id: EXTENSION_ID,
   requires: [IJupyterWidgetRegistry],
   activate: activateWidgetExtension,
