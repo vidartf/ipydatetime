@@ -17,6 +17,8 @@ import { TimeModel, TimeView } from './time';
 
 import { DatetimeModel, DatetimeView } from './datetime';
 
+import { NaiveDatetimeModel } from './naive';
+
 import {
   MODULE_NAME, MODULE_VERSION
 } from './version';
@@ -50,6 +52,7 @@ function activateWidgetExtension(app: Application<Widget>, registry: IJupyterWid
       TimeView,
       DatetimeModel,
       DatetimeView,
+      NaiveDatetimeModel,
     },
   });
 }
