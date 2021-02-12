@@ -156,3 +156,4 @@ ts/yarn.lock
 
 # Test data
 .pytest_cache
+docs/source/_static/embed-bundle.js.LICENSE.txt

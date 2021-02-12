@@ -50,14 +50,14 @@ module.exports = function (config) {
         }
       },
       bundlerOptions: {
-        sourceMap: true,
+        sourceMap: false,  // disable due to some weird bug
         acornOptions: {
           ecmaVersion: 8,
         },
         transforms: [
           require("karma-typescript-es6-transform")({
             presets: [
-              ["env", {
+              ["@babel/env", {
                 targets: {
                   browsers: ["last 2 Chrome versions"]
                 },

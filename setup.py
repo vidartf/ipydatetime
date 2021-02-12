@@ -94,7 +94,7 @@ setup_args = dict(
             "pytest_check_links",
             "nbval",
             "pytz",
-            "coverage<5.0.0", # pin until nbval is compatible with coverage 5
+            "coverage",
         ],
         "examples": [
             # Any requirements for the examples to run
