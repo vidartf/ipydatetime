@@ -1,0 +1,53 @@
+name: Python Tests
+
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+        python_version: [3.7, 3.8, 3.9]
+
+    strategy:
+      fail-fast: false
+
+    defaults:
+      run:
+        shell: pwsh
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup mamba
+      uses: conda-incubator/setup-miniconda@v2
+      with:
+        mamba-version: "*"
+        channels: conda-forge
+
+    - name: Create the conda environment
+      run: mamba install -q python=3.9 pip>17 pytest-cov
+
+    - name: Windows binary dep upgrade
+      if: matrix.os == 'windows-latest'
+      run: mamba install -q pywin32
+
+    - name: Install dependencies
+      run: |
+        python --version
+        node --version
+        python -m pip --version
+
+        python -m pip install --upgrade ".[test, examples, docs]"
+
+    - name: Run docs checks
+      run: |
+        cd docs
+        make html
+        make linkcheck
+        cd ..
+        python -m pytest_check_links --links-ext=.md -o testpaths=. -o addopts= 
