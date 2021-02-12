@@ -44,10 +44,10 @@ jobs:
         python -m pip install --upgrade ".[test, examples, docs]"
 
     - name: Cache links
-        uses: actions/cache@v2
-        with:
-          path: ./build/links
-          key: ${{ runner.os }}-links
+      uses: actions/cache@v2
+      with:
+        path: ./build/links
+        key: ${{ runner.os }}-links
 
     - name: Run docs checks
       run: |
