@@ -42,6 +42,7 @@ jobs:
 
     - name: Run tests
       run: |
+        cd ts
         npm run test:ci
 
     - name: Upload coverage to Codecov
