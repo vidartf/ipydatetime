@@ -91,7 +91,7 @@ setup_args = dict(
         "test": [
             "pytest>=3.6",
             "pytest-cov",
-            "pytest_check_links",
+            "pytest_check_links[cache]",
             "nbval",
             "pytz",
             "coverage",
