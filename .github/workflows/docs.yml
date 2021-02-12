@@ -1,4 +1,4 @@
-name: Python Tests
+name: Docs links checks
 
 on:
   push:
