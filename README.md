@@ -5,8 +5,9 @@
 [![Build Status](https://travis-ci.org/vidartf/ipydatetime.svg?branch=master)](https://travis-ci.org/vidartf/ipydatetime)
 [![codecov](https://codecov.io/gh/vidartf/ipydatetime/branch/master/graph/badge.svg)](https://codecov.io/gh/vidartf/ipydatetime)
 
+# ===== THIS REPOSITORY HAS BEEN ARCHIVED, AS THE WIDGETS ARE NOW AVAILABLE VIA THE IPYWIDGETS PACKAGE ITSELF =====
 
-A Jupyter widgets library for time and datetime pickers
+A Jupyter widgets library for time and datetime pickers.
 
 ## Installation
 
